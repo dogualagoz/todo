@@ -1,18 +1,23 @@
-import { useState } from 'react'
-import './App.css'
-import Selam from './components/selam'
-import Sayac from './components/sayac'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import './App.css';
+import GirisFormu from './components/GirisFormu';
+import AnaSayfa from './components/AnaSayfa';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
-  
   return (
-    <div>
-      <Selam isim="Patron" />
-      <Sayac/>
-    </div>
-
-    
-  )
+    <AuthProvider>
+      <Router>
+        <div>
+          <Routes>
+            <Route path="/" element={<AnaSayfa />} />
+            <Route path="/login" element={<GirisFormu />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
