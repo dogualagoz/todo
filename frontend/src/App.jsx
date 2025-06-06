@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import './App.css';
 import GirisFormu from './components/GirisFormu';
 import AnaSayfa from './components/AnaSayfa';
+import Navbar from './components/Navbar';
+import RegisterForm from './components/RegisterForm';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -9,11 +11,15 @@ function App() {
     <AuthProvider>
       <Router>
         <div>
-          <Routes>
-            <Route path="/" element={<AnaSayfa />} />
-            <Route path="/login" element={<GirisFormu />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
+          <Navbar />
+          <div style={{ paddingTop: '80px' }}>
+            <Routes>
+              <Route path="/" element={<AnaSayfa />} />
+              <Route path="/login" element={<GirisFormu />} />
+              <Route path="/register" element={<RegisterForm />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </div>
         </div>
       </Router>
     </AuthProvider>
