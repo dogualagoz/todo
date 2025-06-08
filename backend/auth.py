@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from sqlmodel import Session, select
 from models import User, engine
 from schemas import RegisterSchema, LoginSchema
@@ -65,8 +65,27 @@ def get_all_users():
         users = session.exec(select(User)).all()
         return [{"username": user.username, "password": user.password} for user in users]    
 
-@router.get("/logged-in-user") #Giriş yapmış kullanıcı testi
-def get_logged_in_users():
-    return {"logged_in_users" : logged_in_user}
+@router.get("/current-user")
+async def get_logged_in_user():
+    if not logged_in_user:
+        raise HTTPException(
+            status_code=401,
+            detail="Lütfen önce giriş yapın"
+        )
+    return logged_in_user[0]
+
+
+async def get_current_user(username: str = Depends(get_logged_in_user)):
+    with Session(engine) as session:
+        user = session.exec(
+            select(User).where(User.username == username)
+        ).first()
+        if not user:
+            raise HTTPException(
+                status_code=401,
+                detail="Geçersiz kimlik doğrulama"
+            )
+        return user
+
 
 

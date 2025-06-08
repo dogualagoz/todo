@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from auth import router as auth_router
+
 from models import User, engine
 from sqlmodel import SQLModel
 
-
+from auth import router as auth_router
+from todo import router as todo_router
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
@@ -28,3 +29,4 @@ def root():
     return {"message": "Backend calisiyor patron "}
 
 app.include_router(auth_router)
+app.include_router(todo_router)
