@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlmodel import Session, select
 from models import User, engine
-from schemas import RegisterSchema, LoginSchema
+from schemas import RegisterSchema, LoginSchema, LogoutSchema
 from typing import List
 
 
@@ -51,7 +51,7 @@ def login_user(user: LoginSchema):
         return {"message": f"Hoş geldin {db_user.username}!"}
     
 @router.post("/logout")
-def logout_user(user: LoginSchema):
+def logout_user(user: LogoutSchema):
     if user.username in logged_in_user:
         logged_in_user.remove(user.username)
         return {"message": f"Başarıyla çıkış yapıldı {user.username}!"}

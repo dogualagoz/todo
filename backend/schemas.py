@@ -10,6 +10,9 @@ class LoginSchema(BaseModel):
     username: str
     password: str
 
+class LogoutSchema(BaseModel):
+    username: str
+
 class TodoCreate(BaseModel):
     title: str
     description: Optional[str] = None
